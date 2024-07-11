@@ -1,3 +1,4 @@
+import math
 def CalcArea(radius):
     """
     Function to calculate the area of a circle
@@ -9,9 +10,9 @@ def CalcArea(radius):
     float: Returns the area of the circle
 
     """
-    pi=3.14
+    
 
-    return pi*radius**2
+    return math.pi*radius**2
 
 # Example
 
