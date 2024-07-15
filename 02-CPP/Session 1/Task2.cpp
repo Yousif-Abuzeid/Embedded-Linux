@@ -32,9 +32,7 @@ int main(){
     double x = 12.5, y = 20.5, z = 18.5;
     std::cout << "Max of " << x << ", " << y << ", and " << z << " is: " << maxOfThree<double>(x, y, z) << std::endl;
 
-    // Test with characters
-    char p = 'a', q = 'z', r = 'm';
-    std::cout << "Max of " << p << ", " << q << ", and " << r << " is: " << maxOfThree<char>(p, q, r) << std::endl;
+  
 
     return 0;
     
