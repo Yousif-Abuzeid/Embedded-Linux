@@ -17,3 +17,25 @@
 - step      s
 - finish    fin
 - quit      q
+
+## Breakpoints
+
+- break       b
+- break Function Name
+- break File Name:Line Number
+- break Line Number
+- break *Address
+- break ... if Condition
+
+- info breakpoints
+- enable
+- disable
+- delete
+
+## print
+
+- print variable  
+- p variable
+- p &variable  ----address
+
+- info locals
