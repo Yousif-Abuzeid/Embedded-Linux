@@ -76,9 +76,9 @@ struct Point {
 
 - A class is a blueprint for creating objects (instances of the class). A class encapsulates data (attributes) and functions (methods) that operate on the data.
 
-### Encapsulatio
+### Encapsulation
 
-Encapsulation is the bundling of data and methods that operate on that data within a single unit or class, and restricting access to some of the object's components.
+- Encapsulation is the bundling of data and methods that operate on that data within a single unit or class, and restricting access to some of the object's components.
 
 ### Memory Layout
 
