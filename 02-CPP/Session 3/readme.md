@@ -58,3 +58,75 @@ Color color = RED;
 enum class Color { RED, GREEN, BLUE };
 Color color = Color::RED;
 ```
+### Struct in C++
+- A struct in C++ is a user-defined data type that groups together variables under a single name. Structs in C++ are similar to classes but differ mainly in terms of default access specifiers. In a struct, members are public by default.
+
+```cpp
+struct Point {
+    int x;
+    int y;
+};
+```
+
+## Object-Oriented Programming (OOP)
+
+### Class
+
+- A class is a blueprint for creating objects (instances of the class). A class encapsulates data (attributes) and functions (methods) that operate on the data.
+
+### Encapsulatio
+
+Encapsulation is the bundling of data and methods that operate on that data within a single unit or class, and restricting access to some of the object's components.
+
+### Memory Layout
+
+In C++, objects are typically allocated on the stack or the heap:
+
+- Stack Segment: Local variables, including object instances, are stored here.
+- Heap Segment: Dynamically allocated memory (using new and delete).
+- Text Segment: Stores compiled code (the program's executable instructions).
+- BSS Segment: Uninitialized global and static variables.
+
+### Global Object and BSS Section
+
+Global objects or static objects that are not explicitly initialized are placed in the BSS (Block Started by Symbol) segment of the memory, which is initialized to zero.
+
+### Access Modifiers
+
+- Public: Members are accessible from outside the class.
+- Private: Members are only accessible from within the class itself.
+- Protected: Members are accessible within the class and by derived class instances.
+
+### Constructors
+
+#### Default Constructor: A constructor that takes no arguments.
+
+```cpp
+class MyClass {
+public:
+    MyClass() {}  // Default constructor
+};
+```
+
+#### Parameterized Constructor: A constructor that takes one or more arguments.
+
+```cpp
+class MyClass {
+public:
+    MyClass(int value) {}  // Parameterized constructor
+};
+```
+
+### This Pointer
+
+this is an implicit pointer in C++ that points to the object for which a member function is called. It is used within a class's member functions to refer to the invoking object.
+
+```cpp
+class MyClass {
+    int value;
+public:
+    void setValue(int value) {
+        this->value = value;
+    }
+};
+```
