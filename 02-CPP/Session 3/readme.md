@@ -29,7 +29,7 @@ int x2{};
 int x3(0);
 ```
 
-### narrowing conversions
+### Narrowing conversions
 
 Narrowing conversions in C++ refer to conversions that may result in loss of data or precision. These conversions typically occur when a value of one type is converted to a type that cannot represent all possible values of the original type. Common examples include converting from a floating-point type to an integer type or from a larger integer type to a smaller integer type.
 
@@ -58,7 +58,9 @@ Color color = RED;
 enum class Color { RED, GREEN, BLUE };
 Color color = Color::RED;
 ```
+
 ### Struct in C++
+
 - A struct in C++ is a user-defined data type that groups together variables under a single name. Structs in C++ are similar to classes but differ mainly in terms of default access specifiers. In a struct, members are public by default.
 
 ```cpp
