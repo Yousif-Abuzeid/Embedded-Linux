@@ -31,7 +31,7 @@ int x3(0);
 
 ### Narrowing conversions
 
-Narrowing conversions in C++ refer to conversions that may result in loss of data or precision. These conversions typically occur when a value of one type is converted to a type that cannot represent all possible values of the original type. Common examples include converting from a floating-point type to an integer type or from a larger integer type to a smaller integer type.
+- Narrowing conversions in C++ refer to conversions that may result in loss of data or precision. These conversions typically occur when a value of one type is converted to a type that cannot represent all possible values of the original type. Common examples include converting from a floating-point type to an integer type or from a larger integer type to a smaller integer type.
 
 ```cpp
 int x = 3.14;     // Narrowing conversion: allowed
