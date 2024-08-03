@@ -13,12 +13,15 @@ std::vector<T> seqArr(T start, T end, T step){
         return temp;});
     return arr;
 }
-
-int main(){
-    auto arr = seqArr(1, 10, 1);
+std:: ostream& operator<<(std::ostream& os, const std::vector<int>& arr){
     for(auto i : arr){
-        std::cout << i << " ";
+        os << i << " ";
     }
-    std::cout << std::endl;
+    return os;
+}
+int main(){
+    std::vector<int> arr = seqArr(1, 10, 1);
+    
+    std::cout <<arr<< std::endl;
     return 0;
 }
