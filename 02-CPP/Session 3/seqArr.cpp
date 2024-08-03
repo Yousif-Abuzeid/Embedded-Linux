@@ -15,7 +15,7 @@ std::vector<T> seqArr(T start, T end, T step){
 }
 
 int main(){
-    auto arr = seqArr(1, 10, 2);
+    auto arr = seqArr(1, 10, 1);
     for(auto i : arr){
         std::cout << i << " ";
     }
