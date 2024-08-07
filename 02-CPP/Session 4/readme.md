@@ -155,42 +155,15 @@ int main(){
 #include <iostream>
 
 class string{
-    private:
-        char *s;
-        int size;
+    private:   
     public:
-    string(){
-        std::cout << "Default Constructor Called" << std::endl;
-    }
     string(const string &old_obj){
         std::cout << "Copy Constructor Called" << std::endl;
         size = old_obj.size;
         s = old_obj.s;
     }
-    ~string(){
-        std::cout << "Destructor Called" << std::endl;
-        delete [] s;
-    }
-
-    void set_data(char *str){
-        size = strlen(str);
-        s = new char[size+1];
-        strcpy(s, str);
-    }
-
-    void print_data(){
-        std::cout << s << std::endl;
-    }
 };
 
-int main(){
-    string obj1;
-    obj1.set_data("Hello");
-    string obj2 = obj1;
-    obj1.print_data();
-    obj2.print_data();
-    return 0;
-}
 ```
 
 ### Example of Deep Copy
@@ -200,40 +173,12 @@ int main(){
 
 class string{
     private:
-        char *s;
-        int size;
     public:
-    string(){
-        std::cout << "Default Constructor Called" << std::endl;
-    }
     string(const string &old_obj){
         std::cout << "Copy Constructor Called" << std::endl;
         size = old_obj.size;
-        s = new char[size+1];
+        s = new char[size+1]; // mempry leakage 
         strcpy(s, old_obj.s);
     }
-    ~string(){
-        std::cout << "Destructor Called" << std::endl;
-        delete [] s;
-    }
-
-    void set_data(char *str){
-        size = strlen(str);
-        s = new char[size+1];
-        strcpy(s, str);
-    }
-
-    void print_data(){
-        std::cout << s << std::endl;
-    }
 };
-
-int main(){
-    string obj1;
-    obj1.set_data("Hello");
-    string obj2 = obj1;
-    obj1.print_data();
-    obj2.print_data();
-    return 0;
-}
 ```
