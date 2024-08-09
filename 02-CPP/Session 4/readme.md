@@ -1,6 +1,297 @@
 # OOP Part 2
 
-## Copy COnstructor
+## Operator Overloading
+
+- Operator overloading is a feature in C++ that allows us to redefine the way operators work with user-defined types.
+
+- Operator overloading is achieved by defining a function that is called when the operator is used with the user-defined type.
+
+- Operator overloading is useful for creating more intuitive and readable code.
+
+### Syntax
+
+```cpp
+
+return_type operator op (parameters) {
+    // code
+}
+
+```
+
+### Example
+
+```cpp
+
+#include <iostream>
+#include <vector>
+
+std::ostream& operator<<(std::ostream& os, const std::vector<int>& vec) {
+    os << "[";
+    for (int i = 0; i < vec.size(); i++) {
+        os << vec[i];
+        if (i != vec.size() - 1) {
+            os << ", ";
+        }
+    }
+    os << "]";
+    return os;
+}
+```
+
+### Postfix and Prefix Increment Operator
+
+- The postfix increment operator (++) increments the value of the variable and returns the original value.
+
+- The prefix increment operator (++var) increments the value of the variable and returns the new value.
+```cpp
+
+#include <iostream>
+
+class Counter {
+private:
+    int count;
+public:
+    Counter() : count(0) {}
+    int operator++() {
+        return ++count;
+    }
+    int operator++(int) {
+        return count++;
+    }
+    void display() {
+        std::cout << "Count: " << count << std::endl;
+    }
+};
+
+int main() {
+    Counter c;
+    c.display(); // Count: 0
+    c++;
+    c.display(); // Count: 1
+    ++c;
+    c.display(); // Count: 3
+    return 0;
+}
+```
+
+
+## Functor 
+
+- A functor is an object that can be called as if it were a function.
+
+- Functors are useful for creating objects that can be used in algorithms that require a function object.
+
+- Functors are often used in conjunction with the standard library algorithms.
+
+- Functors are also known as function objects.
+
+### Example
+
+```cpp
+#include <iostream>
+
+class Add {
+public:
+    int operator()(int a, int b) {
+        return a + b;
+    }
+};
+
+int main() {
+    Add add;
+    std::cout << add(3, 4) << std::endl; // 7
+    return 0;
+}
+```
+### Another Example
+
+```cpp
+
+#include <iostream>
+
+class GreaterThan {
+public:
+    bool operator()(int a, int b) {
+        return a > b;
+    }
+};
+
+int main() {
+    GreaterThan greater_than;
+    std::cout << greater_than(3, 4) << std::endl; // 0
+    std::cout << greater_than(4, 3) << std::endl; // 1
+    return 0;
+}
+```
+
+### Example with Standard Library
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+class GreaterThan {
+public:
+    bool operator()(int a, int b) {
+        return a > b;
+    }
+};
+
+int main() {
+    std::vector<int> vec = {3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5};
+    GreaterThan greater_than;
+    std::sort(vec.begin(), vec.end(), greater_than);
+    for (int i = 0; i < vec.size(); i++) {
+        std::cout << vec[i] << " ";
+    }
+    std::cout << std::endl;
+    return 0;
+}
+```
+
+### Advantages of Functors
+
+- Functors can have state, which allows them to maintain information between calls.
+
+- Functors can be used in algorithms that require a function object.
+
+- Functors can be used to create objects that behave like functions.
+
+### Disadvantages of Functors
+
+- Functors can be more complex than regular functions.
+
+- Functors can be harder to understand and maintain.
+
+- Functors can be harder to use in some situations.
+
+## Conversion
+
+- Conversion operators are used to convert an object of one type to another type.
+
+- Conversion operators are defined as member functions of a class.
+
+### Syntax
+
+```cpp
+operator type() {
+    // code
+}
+```
+
+### Example
+
+```cpp
+
+#include <iostream>
+
+class Fraction {
+private:
+    int numerator;
+    int denominator;
+public:
+    Fraction(int n, int d) : numerator(n), denominator(d) {}
+    operator double() {
+        return static_cast<double>(numerator) / denominator;
+    }
+};
+
+int main() {
+    Fraction f(3, 4);
+    double d = f;
+    std::cout << d << std::endl; // 0.75
+    return 0;
+}
+```
+
+## Friend Operator
+
+- The friend keyword is used to declare a function or a class as a friend of another class.
+
+- A friend function can access the private and protected members of the class in which it is declared as a friend.
+
+### Example
+
+```cpp
+
+#include <iostream>
+
+class A {
+private:
+    int x;
+public:
+    A(int x) : x(x) {}
+    friend void display(A a);
+};
+
+void display(A a) {
+    std::cout << a.x << std::endl;
+}
+
+int main() {
+    A a(10);
+    display(a); // 10
+    return 0;
+}
+```
+## Explicit
+
+- The explicit keyword is used to prevent implicit conversions of constructor functions.
+
+### Example
+
+```cpp
+class complex{
+    private:
+        int real;
+        int imag;
+    public:
+        explicit complex(int r = 0, int i = 0){
+            real = r;
+            imag = i;
+        }
+};
+
+int main(){
+    complex c1(10, 20); // OK
+    complex c2 = complex(10); // OK
+    complex c3 = 30; // Error
+    return 0;
+}
+
+```
+### Explicit With Operator
+
+
+```cpp
+class complex{
+    private:
+        int real;
+        int imag;
+    public:
+        explicit complex(int r = 0, int i = 0){
+            real = r;
+            imag = i;
+        }
+        explicit operator int(){
+            return real;
+        }
+};
+
+int main(){
+    complex c1(10, 20); // OK
+    int x = c1; // Error
+    int y = static_cast<int>(c1); // OK
+
+    return 0;
+}
+
+```
+
+
+
+## Copy Constructor
 
 - A copy constructor is a member function which initializes an object using another object of the same class.
 - A copy constructor has the following general function prototype:
@@ -253,4 +544,54 @@ ClassName (ClassName &&old_obj);
 
 - Named by programmer
 - Lvalue initialized by Rvalue / Lvalue
-- "has its ownership"
+- `has its ownership`
+
+`Ownership : Has a memory address and responsible for the memory management.`
+- `Lvalue = name + address`
+```cpp
+int &fun(){
+    static int x = 10;
+    return x;
+}
+int fun2({
+    static int m = 20;
+})
+fun() = 30; // x = 30
+fun2()/* Rvalue*/ = 40; // Error lvalue required as left operand of assignment  
+int a =fun(); // a = 30
+int x = 10; // x is Lvalue
+int y = x; // x is Lvalue
+int z = x + y; // x and y are Lvalue
+
+x/*Lvalue*/ = 5/*(Rvalue)*/ = 10;//(Rvalue);
+
+(x+1 /*(Rvalue)*/) = 6; // Error lvalue required as left operand of assignment
+
+&x=6; // Error lvalue required as left operand of assignment
+```
+### Rvalue
+
+- Programmer Never Has The chance to name it
+- Never Initialized, it is value by itself
+- `Does not have its ownership`
+- `Temporary Object`
+- `3,4,5,'a','true "Hello World" are Rvalues`
+- `Temporary + no Name`
+
+
+### Xvalue
+
+- eXpiring value
+- `Identity + Moved`
+```cpp
+
+
+int main(){
+
+    std::string name ="Youssef";
+    std::string name2 = std::move(name);
+
+    std::cout << name << std::endl; // Xvalue
+    std::cout << name2 << std::endl; // Youssef
+}
+```
