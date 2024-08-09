@@ -74,8 +74,7 @@ int main() {
 }
 ```
 
-
-## Functor 
+## Functor
 
 - A functor is an object that can be called as if it were a function.
 
@@ -103,6 +102,7 @@ int main() {
     return 0;
 }
 ```
+
 ### Another Example
 
 ```cpp
@@ -320,6 +320,7 @@ int main() {
 ```cpp
 ClassName (const ClassName &old_obj); // Correct
 ```
+
 ### Tracing Example (NO ELide Optimization)
 
 ```cpp
@@ -474,52 +475,6 @@ class string{
 };
 ```
 
-### Rule of Three
-
-- If a class defines one of the following functions, it should probably explicitly define all three:
-
-- Destructor
-- Copy Constructor
-- Copy Assignment Operator
-
-### RAII (Resource Acquisition Is Initialization)
-
-- RAII is a programming idiom used in C++ to manage resources safely. The idea is to tie the life cycle of a resource to the object's life cycle.
-
-- The resource is acquired in the constructor and released in the destructor.
-
-- This ensures that the resource is released when the object goes out of scope, even in the presence of exceptions.
-
-### Rule of Five
-
-- The rule of five is an extension of the rule of three. It states that if a class defines one of the following functions, it should probably explicitly define all five:
-
-- Destructor
-
-- Copy Constructor
-
-- Copy Assignment Operator
-
-- Move Constructor
-
-- Move Assignment Operator
-
-### Move Constructor
-
-- A move constructor is a special member function that is used to move the resources owned by an rvalue to a new object.
-
-- A move constructor has the following general function prototype:
-
-```cpp
-ClassName (ClassName &&old_obj);
-```
-
-- The move constructor is called when an rvalue is passed to a function or returned from a function.
-
-- The move constructor is used to transfer the resources owned by the rvalue to the new object, rather than copying them.
-
-
-
 ### Rule of Zero
 
 - The rule of zero states that if a class does not need to manage resources, it should not define any of the following functions:
@@ -536,7 +491,49 @@ ClassName (ClassName &&old_obj);
 
 - This is because the default implementations provided by the compiler are sufficient for such classes.
 
+### Rule of Three
 
+- If a class defines one of the following functions, it should probably explicitly define all three:
+
+- Destructor
+- Copy Constructor
+- Copy Assignment Operator
+
+### Rule of Five
+
+- The rule of five is an extension of the rule of three. It states that if a class defines one of the following functions, it should probably explicitly define all five:
+
+- Destructor
+
+- Copy Constructor
+
+- Copy Assignment Operator
+
+- Move Constructor
+
+- Move Assignment Operator
+
+### RAII (Resource Acquisition Is Initialization)
+
+- RAII is a programming idiom used in C++ to manage resources safely. The idea is to tie the life cycle of a resource to the object's life cycle.
+
+- The resource is acquired in the constructor and released in the destructor.
+
+- This ensures that the resource is released when the object goes out of scope, even in the presence of exceptions.
+
+### Move Constructor
+
+- A move constructor is a special member function that is used to move the resources owned by an rvalue to a new object.
+
+- A move constructor has the following general function prototype:
+
+```cpp
+ClassName (ClassName &&old_obj);
+```
+
+- The move constructor is called when an rvalue is passed to a function or returned from a function.
+
+- The move constructor is used to transfer the resources owned by the rvalue to the new object, rather than copying them.
 
 ## Value Categories
 
@@ -548,6 +545,7 @@ ClassName (ClassName &&old_obj);
 
 `Ownership : Has a memory address and responsible for the memory management.`
 - `Lvalue = name + address`
+
 ```cpp
 int &fun(){
     static int x = 10;
@@ -569,6 +567,7 @@ x/*Lvalue*/ = 5/*(Rvalue)*/ = 10;//(Rvalue);
 
 &x=6; // Error lvalue required as left operand of assignment
 ```
+
 ### Rvalue
 
 - Programmer Never Has The chance to name it
@@ -578,11 +577,11 @@ x/*Lvalue*/ = 5/*(Rvalue)*/ = 10;//(Rvalue);
 - `3,4,5,'a','true "Hello World" are Rvalues`
 - `Temporary + no Name`
 
-
 ### Xvalue
 
 - eXpiring value
 - `Identity + Moved`
+
 ```cpp
 
 
