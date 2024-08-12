@@ -395,6 +395,7 @@ class string{
         string temp; // Default Constructor Called 1
         return temp; 
     }
+}
 
 int main(){
     string t2(get_instance()); 
@@ -593,4 +594,35 @@ int main(){
     std::cout << name << std::endl; // Xvalue
     std::cout << name2 << std::endl; // Youssef
 }
+```
+
+## Type Categories `(Left Value Reference, Right Value Reference)`
+
+### Lvalue Reference
+
+- Alias to Lvalue
+
+```cpp
+int x = 10;
+int &y = x; 
+// The value category of y is Lvalue
+// The Type category of y is Lvalue Reference
+```
+
+### Rvalue Reference
+
+- Alias to Rvalue `(Movement to location)`
+- It requires the ownership and move the ownership totally from Rvalue to it
+- In Trivial data types it is not moved physically will be just an alias
+
+```cpp
+
+int &&z = 10;
+// The value category of z is Lvalue
+// The Type category of z is Rvalue Reference
+int x=10;
+int &&y=x;// Error
+int &&y = std::move(x); // OK
+
+
 ```
