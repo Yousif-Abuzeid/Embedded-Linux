@@ -626,3 +626,18 @@ int &&y = std::move(x); // OK
 
 
 ```
+
+## Move Constructor
+
+- Move constructor is a special member function that is used to move the resources owned by an rvalue to a new object.
+
+- Move constructor has the following general function prototype:
+
+```cpp
+ClassName (ClassName &&old_obj);
+```
+
+- Move constructor is called when an rvalue is passed to a function or returned from a function.
+
+- Move constructor is used to transfer the resources owned by the rvalue to the new object, rather than copying them.
+
