@@ -162,3 +162,165 @@ int main (){
     8-B Destructor
     9-A Destructor
     ```
+
+### `Hierarchical Inheritance`
+
+- In hierarchical inheritance, more than one class is derived from a single base class.
+
+    ```cpp
+    class employee
+    {
+    public:
+        employee()
+        {
+            std::cout << "Employee Constructor" << std::endl;
+        }
+        void display()
+        {
+            std::cout << "Display of Employee" << std::endl;
+        }
+        ~employee()
+        {
+            std::cout << "Employee Destructor" << std::endl;
+        }
+    };
+
+    class manager : public employee
+    {
+    public:
+        manager()
+        {
+            std::cout << "Manager Constructor" << std::endl;
+        }
+        void show()
+        {
+            std::cout << "Show of Manager" << std::endl;
+        }
+        ~manager()
+        {
+            std::cout << "Manager Destructor" << std::endl;
+        }
+    };
+
+    class HR : public employee
+    {
+    public:
+        HR()
+        {
+            std::cout << "HR Constructor" << std::endl;
+        }
+        void view()
+        {
+            std::cout << "View of HR" << std::endl;
+        }
+        ~HR()
+        {
+            std::cout << "HR Destructor" << std::endl;
+        }
+    };
+
+    int main()
+    {
+        manager m;
+       
+        HR h;
+       
+        return 0;
+    }
+    /***
+    Output:
+    1-Employee Constructor
+    2-Manager Constructor
+    3-Employee Constructor
+    4-HR Constructor
+    5-HR Destructor
+    6-Employee Destructor
+    7-Manager Destructor
+    8-Employee Destructor
+ 
+    ```
+
+### `Multiple Inheritance`
+
+`Prohibited by Misra`
+
+- In multiple inheritance, a class is derived from more than one class.
+
+```cpp
+class A
+    {
+        public:
+        void fun(){
+            std::cout<<"Fun A"<<std::endl;
+        }
+    };
+    class B
+    {
+        public:
+        void fun(){
+            std::cout<<"Fun B"<<std::endl;
+        }
+    };
+    class AB :public A, public B{
+
+    };
+
+    int main (){
+        AB obj;
+        
+        obj.fun(); //ambigous call
+        /* Can be Fixed Like This*/
+        obj.A::fun();
+        obj.B::fun();
+
+
+    }
+
+```
+
+### `Hybrid Inheritance`
+
+- Hybrid inheritance is a combination of multiple inheritance and multilevel inheritance.
+
+```cpp
+#include <iostream>
+class A
+{
+    public: 
+    int a;
+public:
+    void display()
+    {
+        std::cout << "Display of A" << std::endl;
+    }
+};
+
+class B : virtual public A
+{
+public:
+    
+};
+
+class C : virtual public A
+{
+public:
+    
+};
+
+class D :  public B,  public C
+{
+public:
+    
+};
+
+int main()
+{
+    D d;
+    d.display();
+    
+    return 0;
+}
+
+```
+
+- `Using the Virtual Keyword Resolved The Problem of Ambigous Call`
