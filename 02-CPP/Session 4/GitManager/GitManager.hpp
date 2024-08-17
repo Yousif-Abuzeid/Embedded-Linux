@@ -1,11 +1,6 @@
 #ifndef GIT_MANAGER
 #define GIT_MANAGER
-#include <iostream>
-#include <vector>
 #include <string>
-#include <algorithm>
-#include <filesystem>
-
 class GitManager {
     private:
     static const std::string Token;
