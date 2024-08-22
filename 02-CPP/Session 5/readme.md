@@ -324,3 +324,255 @@ int main()
 ```
 
 - `Using the Virtual Keyword Resolved The Problem of Ambigous Call`
+
+### abstract class and interface class 
+- you cannot creat instanse from the abtract or interface classes 
+- abstract class example
+```cpp
+#include <iostream>
+#include <fstream>
+#include <stdexcept>
+#include <string>
+
+class Logger {
+public:
+    enum Level { Info, Warning, Error };
+    static constexpr const char *PASSWORD = "Moatasem";
+
+    virtual void log(Level level, const std::string &message) = 0;
+    void help() { std::cout << "help" << std::endl; }
+};
+
+class FileSystem : public Logger {
+public:
+    FileSystem(std::string password) {
+        if (password != Logger::PASSWORD) {
+            throw std::runtime_error("Invalid password");
+        }
+    }
+
+    void log(Level level, const std::string &message) override {
+        std::fstream fs("log.txt", std::ios::app);
+        fs << message << std::endl;
+        fs.close();
+    }
+};
+
+int main() {
+    // Calling the base class constructor explicitly using 'using'
+    FileSystem log_handler(Logger::PASSWORD);
+
+    log_handler.log(Logger::Level::Info, "This is an info message");
+    return 0;
+}
+```
+- interface class example
+```cpp
+#include <iostream>
+
+class Shape {
+public:
+    virtual void draw() = 0; // Pure virtual function, making Shape an abstract class
+};
+
+class Circle : public Shape {
+public:
+    void draw() override {
+        std::cout << "Drawing a circle." << std::endl;
+    }
+};
+
+class Square : public Shape {
+public:
+    void draw() override {
+        std::cout << "Drawing a square." << std::endl;
+    }
+};
+
+int main() {
+    Circle circle;
+    Square square;
+
+    Shape* shapes[] = { &circle, &square };
+
+    for (Shape* shape : shapes) {
+        shape->draw(); // Using abstraction to draw different shapes
+    }
+
+    return 0;
+}
+```
+- `Note:`
+    - `abstract class` is a class that has at
+        least one pure virtual function.
+    - `interface class` is a class that has all
+        pure virtual functions.
+    - `abstract class` can have data members
+        and concrete functions.
+    - `interface class` can only have pure
+        virtual functions.
+    - `abstract class` can have constructors
+        and destructors.
+    - `interface class` cannot have constructors
+        and destructors.
+    - `abstract class` can have access
+        specifiers.
+    - `interface class` cannot have access
+        specifiers.
+
+
+# Polymorphism
+
+- Polymorphism is a Greek word that means "many-shaped" and it has two types:
+    - Compile-time polymorphism
+    - Run-time polymorphism
+
+## Compile-time polymorphism
+
+- Compile-time polymorphism is also known as static polymorphism.
+
+- Compile-time polymorphism is achieved by function overloading and operator overloading.
+
+### Function Overloading
+
+- Function overloading is a feature that allows us to have more than one function with the same name but with different parameters.
+
+```cpp
+#include <iostream>
+
+
+class Add
+{
+public:
+    void sum(int a, int b)
+    {
+        std::cout << "Sum of two integers: " << a + b << std::endl;
+    }
+    void sum(double a, double b)
+    {
+        std::cout << "Sum of two doubles: " << a + b << std::endl;
+    }
+};
+
+int main()
+{
+    Add a;
+    a.sum(10, 20);
+    a.sum(10.5, 20.5);
+    return 0;
+}
+```
+**Explanation:**
+
+- In the above example, we have a class `Add` with two functions `sum`.
+
+- The first function `sum` takes two integers as parameters and the second function `sum` takes two doubles as parameters.
+
+- When we call the `sum` function with two integers, the first function will be called and when we call the `sum` function with two doubles, the second function will be called.
+
+`This is Called Function Overloading`
+
+### Operator Overloading
+
+- Operator overloading is a feature that allows us to redefine the operator's functionality.
+
+```cpp
+
+#include <iostream>
+
+class Complex
+{
+    
+public:
+    int real, imag;
+    Complex(int r = 0, int i = 0)
+    {
+        real = r;
+        imag = i;
+    }
+    Complex operator+(Complex const &obj)
+    {
+        Complex res;
+        res.real = real + obj.real;
+        res.imag = imag + obj.imag;
+        return res;
+    }
+};
+
+int main()
+{
+    Complex c1(10, 5), c2(2, 4);
+    Complex c3 = c1 + c2;
+    std::cout << c3.real << " + i" << c3.imag << std::endl;
+    return 0;
+}
+```
+
+**Explanation:**
+
+
+- In the above example, we have a class `Complex` with two data members `real` and `imag`.
+
+- We have overloaded the `+` operator using the `operator+` function.
+
+- When we add two objects of the `Complex` class using the `+` operator, the `operator+` function will be called.
+
+- The `operator+` function will return a new object of the `Complex` class with the sum of the real and imaginary parts of the two objects.
+
+`This is Called Operator Overloading`
+
+## Run-time polymorphism
+
+- Run-time polymorphism is also known as dynamic polymorphism.
+
+- Run-time polymorphism is achieved by function overriding.
+
+### Function Overriding
+
+- Function overriding is a feature that allows us to have a function in the derived class with the same name as a function in the base class.
+
+```cpp
+#include <iostream>
+
+class Base
+{
+public:
+    virtual void display()
+    {
+        std::cout << "Display of Base" << std::endl;
+    }
+};
+
+class Derived : public Base
+{
+public:
+    void display()
+    {
+        std::cout << "Display of Derived" << std::endl;
+    }
+};
+
+int main()
+{
+    Base *b;
+    Derived d;
+    b = &d;
+    b->display();
+    return 0;
+}
+```
+
+**Explanation:**
+
+- In the above example, we have a base class `Base` with a virtual function `display`.
+
+- We have a derived class `Derived` that is inheriting the base class `Base`.
+
+- We have overridden the `display` function in the derived class `Derived`.
+
+- We have created a pointer of the base class `Base` and assigned the address of the derived class `Derived` to it.
+
+- When we call the `display` function using the base class pointer, the `display` function of the derived class `Derived` will be called.
+
+`This is Called Function Overriding`
+
