@@ -228,6 +228,76 @@ std::cout << *p << std::endl;
 std::unique_ptr<int> q = p; // Error: Not Copyable
 std::unique_ptr<int> q = std::move(p); // OK: Movable
 ```
+### std::unique_ptr with Custom Deleter
+
+- We can use a custom deleter to delete the object in a different way.
+
+```cpp
+
+#include <memory>
+
+class MyDeleter {
+public:
+    void operator()(int* p) {
+        std::cout << "Custom Deleter" << std::endl;
+        delete p;
+    }
+};
+
+int main() {
+    std::unique_ptr<int, MyDeleter> p(new int);
+}
+
+```
+### std::unique_ptr with Array
+
+- We can use std::unique_ptr with arrays.
+
+```cpp
+
+#include <memory>
+
+std::unique_ptr<int[]> p(new int[5]);
+p[0] = 1;
+std::cout << p[0] << std::endl;
+
+```
+
+### std::unique_ptr methods
+**Member Functions**
+- `Constructor`: Creates a unique_ptr.
+- `Destructor`: Deletes the object.
+- `operator=`: Assigns the unique_ptr (cant be copied only moved).
+**Modifiers**
+- `reset()`: Deletes the object and sets the pointer to nullptr.
+- `release()`: Releases the ownership of the object.
+- `swap()`: Swaps the ownership of the object.
+**Observers**
+- `get()`: Returns the raw pointer.
+- `get_deleter()`: Returns the deleter.
+- `operator bool()`: Returns true if the unique_ptr is not nullptr.
+**How to Access**
+- Single Object
+        - `operator*`: Returns the object.
+        - `operator->`: Returns the object.
+- Array
+        - `operator[]`: Returns the object.
+
+```cpp
+
+#include <memory>
+
+std::unique_ptr<int> p = std::make_unique<int>(5);
+std::cout << p.get() << std::endl;
+p.reset();
+std::cout << p.get() << std::endl;
+std::unique_ptr<int> q = p.release();
+std::cout << p.get() << std::endl;
+std::cout << q.get() << std::endl;
+ // p is nullptr
+// q is not nullptr
+
+```
 
 ### std::shared_ptr
 
@@ -255,6 +325,29 @@ std::cout << q.use_count() << std::endl; // 2
 std::cout << ptr2.use_count() << std::endl; // 2
 
 ```
+
+### std::shared_ptr methods
+
+**Member Functions**
+- `Constructor`: Creates a shared_ptr.
+- `Destructor`: Deletes the object.
+- `operator=`: Assigns the shared_ptr.
+**Modifiers**
+- `reset()`: Deletes the object and sets the pointer to nullptr.
+- `swap()`: Swaps the ownership of the object.
+**Observers**
+- `get()`: Returns the raw pointer.
+- `use_count()`: Returns the reference count.
+- `unique()`: Returns true if the reference count is one.(until c++ 20)
+- `operator bool()`: Returns true if the shared_ptr is not nullptr.
+**How to Access**
+- Single Object
+        - `operator*`: Returns the object.
+        - `operator->`: Returns the object.
+- Array
+        - `operator[]`: Returns the object.
+
+
 ### Circular Reference in shared_ptr
 
 - Circular reference is a situation in which two or more objects refer to each other.
@@ -308,6 +401,27 @@ int main() {
 - When the last shared_ptr goes out of scope, the object is deleted.
 - **weak ownership** : does not own the object.
 - Solve the circular reference problem.
+
+### std::weak_ptr methods
+
+**Member Functions**
+- `Constructor`: Creates a weak_ptr.
+- `Destructor`: Deletes the object.
+- `operator=`: Assigns the weak_ptr.
+**Modifiers**
+- `reset()`: Deletes the object and sets the pointer to nullptr.
+- `swap()`: Swaps the ownership of the object.
+**Observers**
+- `get()`: Returns the raw pointer.
+- `use_count()`: Returns the reference count.
+- `expired()`: Returns true if the object is deleted.
+- `lock()`: Returns a shared_ptr that manages the referenced object.
+***How to Access**
+- Single Object
+        - `operator*`: Returns the object.
+        - `operator->`: Returns the object.
+- Array
+        - `operator[]`: Returns the object.
 
 ```cpp
 
@@ -496,4 +610,420 @@ public:
 };
 
 ```
+
+5. Explicit Specialization
+
+- `Explicit specialization is a way to provide a different implementation for a specific data type`.
+
+```cpp
+
+template <typename T>
+class Container {
+    T data;
+public:
+    Container(T data): data(data) {}
+    T getData() {
+        return data;
+    }
+    void print() {
+        std::cout << data << std::endl;
+    }
+};
+
+template <>
+
+class Container<std::string> {
+    std::string data;
+public:
+    Container(std::string data): data(data) {}
+    std::string getData() {
+        return data;
+    }
+    void print() {
+        std::cout << data << std::endl;
+    }
+};
+
+```
+
+6. Partial Specialization
+
+- `Partial specialization is a way to provide a different implementation for a specific data type`.
+
+```cpp
+template <typename T, typename U>
+class Container {
+    T data;
+    U value;
+public:
+    Container(T data, U value): data(data), value(value) {}
+    T getData() {
+        return data;
+    }
+    U getValue() {
+        return value;
+    }
+    void print() {
+        std::cout << data << " " << value << std::endl;
+    }
+};
+
+template <typename T>
+class Container<T, std::string> {
+    T data;
+    std::string value;
+
+public:
+    Container(T data, std::string value): data(data), value(value) {}
+    T getData() {
+        return data;
+    }
+    std::string getValue() {
+        return value;
+    }
+    void print() {
+        std::cout << data << " " << value << std::endl;
+    }
+};
+
+```
+
+7. default template arguments
+
+- `Default template arguments are a way to provide a default data type for a template`.
+
+```cpp
+
+template <typename T = int>
+T add(T a, T b) {
+    return a + b;
+}
+
+```
+8. Const Template Arguments
+
+- `Const template arguments are a way to provide a constant data type for a template`.
+- Like std::array
+
+```cpp
+
+template <typename T, int Size>
+class MyArray {
+    T data[Size];
+public:
+    MyArray() {}
+    T& operator[](int index) {
+        return data[index];
+    }
+};
+
+int main() {
+    MyArray<int, 5> arr;
+    arr[0] = 1;
+    std::cout << arr[0] << std::endl;
+}
+
+```
+
+### Variadic Templates
+
+- `Variadic templates are a way to write functions and classes that take a variable number of arguments`.
+
+```cpp
+
+// Base Case
+template <typename T>
+T add(T a) {
+    return a;
+}
+
+// Recursive Case
+template <typename T, typename... Args>
+T add(T first, Args... args) {
+    return first + add(args...);
+}
+template <typename T>
+void print(T t) {
+    std::cout << t << std::endl;
+}
+
+template <typename T, typename... Args>
+void print(T t, Args... args) {
+    std::cout << t << " ";
+    print(args...);
+}
+
+int main() {
+    std::cout << add(1, 2, 3, 4, 5) << std::endl;
+    // 15
+    print(1, 2, 3, 4, 5);
+    // 1 2 3 4 5
+}
+
+```
+
+
+### SFINAE (Substitution Failure Is Not An Error)
+
+- `SFINAE is a way to enable or disable a function or class template based on a condition`.
+
+```cpp
+
+template <typename T>
+typename T::value_type add(T a, T b) {
+    return a + b;
+}
+
+int main() {
+    std::cout << add(1, 2) << std::endl;
+    // Error: int does not have value_type
+}
+
+```
+
+- We can use SFINAE(Substitution Failure Is Not An Error) to enable or disable a function or class template based on a condition.
+
+- `std::enable_if` is a way to enable or disable a function or class template based on a condition.
+
+- **How `SFINAE` Works**
+
+When the C++ compiler is instantiating templates, it tries to substitute the types provided by the user into the template's parameters. If a substitution causes an invalid type or expression, the compiler doesn't treat this as a fatal error. Instead, it simply discards that particular specialization and moves on to other possible specializations or overloads. This allows the programmer to create more flexible and robust templates.
+
+```cpp
+
+#include <type_traits>
+#include <iostream>
+
+// Function template for integral types
+template <typename T>
+typename std::enable_if<std::is_integral<T>::value, void>::type
+printType(T t) {
+    std::cout << t << " is an integral type.\n";
+}
+
+// Function template for floating-point types
+template <typename T>
+typename std::enable_if<std::is_floating_point<T>::value, void>::type
+printType(T t) {
+    std::cout << t << " is a floating-point type.\n";
+}
+
+int main() {
+    printType(5);      // Calls the integral version
+    printType(5.5);    // Calls the floating-point version
+    // printType("test"); // Compilation error: no matching function
+}
+```
+
+## `std::tuble`
+
+- `std::tuple` is a way to store multiple data types in a single object.
+- `std::tuple` is a way to return multiple values from a function.
+- `std::tuple` like a list in python.
+
+```cpp
+
+#include <tuple>
+
+int main() {
+    std::tuple<int, double, std::string> t(1, 2.2, "Hello");
+    std::cout << std::get<0>(t) << std::endl;
+    std::cout << std::get<1>(t) << std::endl;
+    std::cout << std::get<2>(t) << std::endl;
+
+}
+
+```
+
+## `std::pair`
+
+- `std::pair` is a way to store two data types in a single object.
+
+```cpp
+
+#include <utility>
+int main() {
+    std::pair<int, double> p(1, 2.2);
+    std::cout << p.first << std::endl;
+    std::cout << p.second << std::endl;
+}
+
+```
+
+## `std::variant`
+
+- `std::variant` is a way to store multiple data types in a single object.
+- `std::variant` is a way to return multiple values from a function.
+- `std::variant` is like a union in C.
+
+```cpp
+#include <variant>
+
+
+int main() {
+    std::variant<int, double, std::string> v;
+    v = 1;
+    std::cout << std::get<int>(v) << std::endl;
+    v = 2.2;
+    std::cout << std::get<double>(v) << std::endl;
+    v = "Hello";
+    std::cout << std::get<std::string>(v) << std::endl;
+}
+
+```
+
+# Searching Tasks
+
+## Final Classifier
+
+- It is keyword that is used to specify that a method in base class cannot be overridden.
+- Must be Virtual.
+
+```cpp
+
+class Base {
+public:
+    virtual void foo() final {
+        std::cout << "Base::foo" << std::endl;
+    }
+};
+
+class Derived : public Base {
+public:
+//wrong 
+    void foo() {
+        std::cout << "Derived::foo" << std::endl;
+    }
+};
+
+```
+
+- `Error: Cannot override final method.`
+
+## std::bind
+
+- `std::bind` is a way to bind arguments to a function.
+- `std::bind` is a way to create a function object.
+- `std::bind` is a way to create a function object with placeholders.
+
+```cpp
+
+#include <functional>
+
+void foo(int a, int b) {
+    std::cout << a << " " << b << std::endl;
+}
+
+int main() {
+    auto f = std::bind(foo, 1, 2);
+    f();
+}
+
+```
+
+```cpp
+#include <functional>
+
+class A{
+public:
+    void foo(int a, int b) {
+        std::cout << a << " " << b << std::endl;
+    }
+};
+
+int main() {
+    A a;
+    auto f = std::bind(&A::foo, &a, std::placeholders::_1, std::placeholders::_2);
+    f(1, 2);
+}
+
+```
+
+```cpp
+#include <functional>
+
+int multiply(int a, int b) {
+    return a * b;
+}
+
+// dont do this
+int multiplyByTwo(int a) {
+    return a * 2;
+}
+
+int main() {
+    // do this
+    auto f = std::bind(multiply, std::placeholders::_1, 2);
+    std::cout << f(3) << std::endl;
+
+}
+
+```
+
+## template hpp
+
+- A `template.hpp` file is not a standard or specific term in C++, but it typically refers to a header file (.hpp) that contains template definitions. In C++, template classes and functions are usually defined in header files because of how template instantiation works.
+
+### Why use template.hpp?
+
+1. **Template Instantiation**: When you use a template class or function in your code, the compiler needs to know the template definition to instantiate it for the specific data types you're using. If the template definition is in a separate .cpp file, the compiler won't be able to instantiate it correctly.
+
+2. **Separation of Concerns**: By defining templates in a separate header file, you can keep the template definition separate from the implementation details. This can make your code more modular and easier to maintain.
+
+### How to use template.hpp?
+
+#### MyClass.hpp
+
+```cpp
+
+#ifndef MYCLASS_HPP
+#define MYCLASS_HPP
+
+template <typename T>
+class MyClass {
+private:
+    T data;
+
+public:
+
+    MyClass(T data);
+
+    T getData();
+};
+
+#include "MyClass.template.hpp"
+
+#endif
+```
+
+#### MyClass.template.hpp
+
+```cpp
+
+template<typename T>
+MyClass<T>::MyClass(T value) : value(value) {}
+
+template<typename T>
+T MyClass<T>::getValue() const {
+    return value;
+}
+```
+
+#### main.cpp
+
+```cpp
+
+
+#include "MyClass.hpp"
+
+int main() {
+    MyClass<int> myClass(42);
+    std::cout << myClass.getValue() << std::endl;
+    return 0;
+}
+```
+
+## StringStream
+
+
 
