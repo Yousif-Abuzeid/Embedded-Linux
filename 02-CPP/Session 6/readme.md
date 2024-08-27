@@ -250,7 +250,250 @@ std::cout << *p << std::endl;
 std::shared_ptr<int> q = p; // OK: Copyable
 std::shared_ptr<int> q = std::move(p); // OK: Movable
 
+std::shared_ptr<int> ptr2 = q;
+std::cout << q.use_count() << std::endl; // 2
+std::cout << ptr2.use_count() << std::endl; // 2
+
+```
+### Circular Reference in shared_ptr
+
+- Circular reference is a situation in which two or more objects refer to each other.
+- Objects are not deleted because they have a reference count greater than zero.
+
+```cpp
+
+#include <memory>
+
+class B;
+
+class A {
+    std::shared_ptr<B> b;
+public:
+    void setB(std::shared_ptr<B> b) {
+        this->b = b;
+    }
+    ~A() {
+        std::cout << "A Deleted" << std::endl;
+    }
+};
+
+class B {
+    std::shared_ptr<A> a;
+public:
+
+    void setA(std::shared_ptr<A> a) {
+        this->a = a;
+    }
+    ~B() {
+        std::cout << "B Deleted" << std::endl;
+    }
+
+};
+
+
+int main() {
+    std::shared_ptr<A> a = std::make_shared<A>();
+    std::shared_ptr<B> b = std::make_shared<B>();
+    a->setB(b);
+    b->setA(a);
+    // a and b are not deleted
+}
+
 ```
 
 ### std::weak_ptr
+
+- holds a weak object (allocated on the heap) and takes weak ownership of that object.
+- Does not increase the reference count.
+- When the last shared_ptr goes out of scope, the object is deleted.
+- **weak ownership** : does not own the object.
+- Solve the circular reference problem.
+
+```cpp
+
+#include <memory>
+
+class B;
+
+class A {
+    std::shared_ptr<B> b;
+public:
+    void setB(std::shared_ptr<B> b) {
+        this->b = b;
+    }
+    ~A() {
+        std::cout << "A Deleted" << std::endl;
+    }
+};
+
+class B {
+    std::weak_ptr<A> a;
+public:
+    
+        void setA(std::shared_ptr<A> a) {
+            this->a = a;
+        }
+        ~B() {
+            std::cout << "B Deleted" << std::endl;
+        }
+    
+    };
+
+
+int main() {
+    std::shared_ptr<A> a = std::make_shared<A>();
+    std::shared_ptr<B> b = std::make_shared<B>();
+    a->setB(b);
+    b->setA(a);
+    // a and b are deleted
+}
+
+```
+
+## Templates
+
+- Templates are a way to write generic code in C++.
+- Parameter types are determined from arguments.
+- Templates are a way to write functions and classes that work with any data type.
+- std::algorithm is a good example of templates.
+
+### Function Templates
+
+- Write a template once and use it with any data type.
+- Instantiate the template with the desired data type.
+
+```cpp
+
+template <typename T>
+T add(T a, T b) {
+    return a + b;
+}
+
+int main() {
+    std::cout << add(1, 2) << std::endl;
+    std::cout << add(1.1, 2.2) << std::endl;
+}
+
+```
+
+- We can also use multiple data types.
+
+```cpp
+
+template <typename T, typename U>
+auto add(T a, U b) {
+    return a + b;
+}
+// auto is used to deduce the return type.
+
+int main() {
+    std::cout << add(1, 2.2) << std::endl;
+}
+
+```
+
+- **`The compiler will generate the appropriate function for the data type`**.
+
+### Class Templates
+
+- Write a template once and use it with any data type.
+- Instantiate the template with the desired data type.
+- std:: Container classes are a good example of templates.
+
+```cpp
+
+template <typename T>
+
+class MyVector {
+    T* data;
+    size_t size;
+public:
+    MyVector(size_t size): size(size), data(new T[size]) {}
+    T& operator[](size_t index) {
+        return data[index];
+    }
+    ~MyVector() {
+        delete[] data;
+    }
+};
+
+int main() {
+    //<=c++ 14 types must be specified explicitly 
+    //C++ 17 onwards type deduction is possible
+    
+    MyVector<int> v(5);
+
+    MyVector<double> v(5);
+
+    v[0] = 1;
+    std::cout << v[0] << std::endl;
+}
+
+```
+
+### How to use templates
+
+1. Basic Template Single Argument
+
+```cpp
+
+template <typename T>
+T add(T a, T b) {
+    return a + b;
+}
+```
+
+2. Basic Template Multiple Arguments
+
+```cpp
+
+template <typename T, typename U>
+auto add(T a, U b) {
+    return a + b;
+}
+```
+
+3. Class Template
+
+```cpp
+
+template <typename T>
+class MyVector {
+    T* data;
+    size_t size;
+public:
+
+    MyVector(size_t size): size(size), data(new T[size]) {}
+    T& operator[](size_t index) {
+        return data[index];
+    }
+    ~MyVector() {
+        delete[] data;
+    }
+};
+
+```
+
+4. Class Template With Standalone Function
+
+```cpp
+
+template <typename T> 
+class Container {
+    T data;
+public:
+    Container(T data): data(data) {}
+    T getData() {
+        return data;
+    }
+    template <typename U>
+    void add(U value) {
+        data += value;
+    }
+    void print() {
+        std::cout << data << std::endl;
+    }
+};
+
+```
 
