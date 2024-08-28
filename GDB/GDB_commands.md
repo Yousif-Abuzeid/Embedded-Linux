@@ -63,4 +63,38 @@
 - set variable = value
 - If in a class, use set variable object.variable = value or Use Setter()
 
+## Call
 
+### Non-member functions
+- call function_name(args)
+
+### Member functions (Must not be implemented in the class`(inlined)`)
+
+#### Non-Static
+
+- call object.function_name(args)
+
+#### Static
+
+- call Class::function_name(args)
+
+**To Get Prototype of The Function**
+
+- ptype function_name
+- whatis function_name
+
+## Source
+
+- list -> Shows the source code
+- list Line Number
+- list Function Name
+- list File Name:Line Number
+- list File Name:Function Name
+
+**dissasembly**
+
+- disassemble /s Function Name
+
+**Remove Mangling**
+
+- set print asm-demangle on
