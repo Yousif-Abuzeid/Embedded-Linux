@@ -39,3 +39,28 @@
 - p &variable  ----address
 
 - info locals
+
+## watch
+
+**Places a Hardware breakpoint on a variable**
+
+- watch variable
+- watch variable == value
+- watch variable != value
+- watch variable > value
+- watch variable < value
+
+## display
+
+**Prints the value of a variable after each step**
+
+- display variable
+- display info -> gives the id of the displayed variables
+- undisplay id
+
+## Overwriting
+
+- set variable = value
+- If in a class, use set variable object.variable = value or Use Setter()
+
+
