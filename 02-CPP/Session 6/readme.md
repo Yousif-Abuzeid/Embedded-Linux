@@ -1023,7 +1023,142 @@ int main() {
 }
 ```
 
-## StringStream
+## sstream
 
+- `std::stringstream` is a stream class to operate on strings.
+- It is used to read and write data to/from strings.
+- It is a part of the C++ Standard Library.
+
+```cpp
+
+#include <sstream>
+
+int main() {
+    std::stringstream ss;
+    ss << "Hello" << " " << "World";
+    std::string str = ss.str();
+    std::cout << str << std::endl;
+}
+
+```
+
+## Chorno timers
+
+- `std::chrono` is a library in C++ that provides time-related functionality.
+- It is used to measure time durations and time points.
+- It is a part of the C++ Standard Library.
+
+```cpp
+
+#include <chrono>
+
+int main() {
+    auto start = std::chrono::high_resolution_clock::now();
+    for (int i = 0; i < 1000000; i++) {
+        // Do something
+    }
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration = end - start;
+    std::cout << duration.count() << std::endl;
+}
+
+```
+
+
+## random numbers
+
+- `std::random` is a library in C++ that provides random number generation functionality.
+- It is used to generate random numbers.
+- It is a part of the C++ Standard Library.
+
+```cpp
+
+#include <random>
+
+int main() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> dis(1, 6);
+    for (int i = 0; i < 10; i++) {
+        std::cout << dis(gen) << std::endl;
+    }
+}
+
+```
+
+# C++17 Features
+
+## `std::variant`
+
+- `std::variant` is a way to store multiple data types in a single object.
+- `std::variant` is a way to return multiple values from a function.
+- `std::variant` is like a union in C.
+
+```cpp
+
+#include <variant>
+
+std::variant<int, double, std::string> getVariant() {
+    return {1, 2.2, "Hello"};
+
+}
+
+int main() {
+    std::variant<int, double, std::string> v;
+    v = 1;
+    std::cout << std::get<int>(v) << std::endl;
+    v = 2.2;
+    std::cout << std::get<double>(v) << std::endl;
+    v = "Hello";
+    std::cout << std::get<std::string>(v) << std::endl;
+}
+
+```
+
+## `std::optional`
+
+- `std::optional` is a way to store an optional value.
+- `std::optional` is a way to return a value that may or may not exist.
+- `std::optional` is a way to avoid null pointer errors.
+
+```cpp
+
+#include <optional>
+
+std::optional<int> getOptional() {
+    return 1;
+}
+
+int main() {
+    std::optional<int> o = getOptional();
+    if (o.has_value()) {
+        std::cout << o.value() << std::endl;
+    }
+}
+
+```
+
+## `std::any`
+
+- `std::any` is a way to store any data type.
+- `std::any` is a way to return any value.
+- `std::any` is a way to avoid type errors.
+
+```cpp
+
+#include <any>
+
+std::any getAny(auto value) {
+    return value;
+}
+
+int main() {
+    std::any a = getAny("Hello");
+    if (a.type() == typeid(int)) {
+        std::cout << std::any_cast<int>(a) << std::endl;
+    }
+}
+
+```
 
 
