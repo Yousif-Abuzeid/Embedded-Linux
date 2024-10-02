@@ -57,8 +57,12 @@ void simpleShell() {
     while (1) {
        // Get the current working directory
         char cwd[MAX_CMD_LEN];
+        
         if (getcwd(cwd, sizeof(cwd)) != NULL) {
             // Print prompt with color and current directory
+            if(strcmp(cwd, getenv("HOME")) == 0){
+            memcpy(cwd, "~", MAX_CMD_LEN);
+            }
             printf( COLOR_BLUE"%s"COLOR_GREEN"<simpleShell>$ " COLOR_RESET, cwd);
         } else {
             perror("getcwd() error");
