@@ -24,6 +24,9 @@
 #define COLOR_BLUE "\033[34m"
 #define COLOR_YELLOW "\033[33m"
 
+// Directories shortcuts
+#define HOME_DIR "~"
+
 // Function prototype
 
 void simpleShell();
@@ -49,6 +52,7 @@ void simpleShell() {
 
     // Number of commands
     int num_cmds;
+
 
     while (1) {
        // Get the current working directory
@@ -105,7 +109,7 @@ void simpleShell() {
             // If the command is "cd"
         if (strcmp(args[0], "cd") == 0) {
             // If "cd" has no arguments, go to the home directory
-            if (args[1] == NULL) {
+            if (args[1] == NULL || strcmp(args[1], HOME_DIR) == 0) {
                 chdir(getenv("HOME"));
             } else {
                 // Change the directory to the specified path
@@ -116,7 +120,6 @@ void simpleShell() {
             }
             continue;  // Skip the rest of the loop for "cd"
         }
-
             // Fork and execute the command
             pid_t pid = fork();
             if (pid == -1) {
