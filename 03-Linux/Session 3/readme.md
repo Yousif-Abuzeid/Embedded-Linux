@@ -404,4 +404,111 @@ grep [OPTIONS] PATTERN [FILE...]
 - `pattern()` -> Matches `pattern()`.
 - `pattern?` -> Matches `pattern`, `patern`, etc.
 
+### Extended Regular Expressions
+
+- `+` -> Matches one or more occurrences of the previous character
+- `?` -> Matches zero or one occurrence of the previous character
+- `{n}` -> Matches exactly n occurrences of the previous character
+- `{n,}` -> Matches n or more occurrences of the previous character
+- `{n,m}` -> Matches between n and m occurrences of the previous character
+- `|` -> Alternation (OR operator)
+- `[]` -> Character class
+- `[^]` -> Negated character class
+- `()` -> Grouping
+- `\` -> Escape character
+
+### Examples
+
+- `pattern+` -> Matches `pattern`, `patternn`, `patternnn`, etc.
+- `pattern?` -> Matches `pattern` or `patern`.
+- `pattern{n}` -> Matches `pattern` repeated n times.
+- `pattern{n,}` -> Matches `pattern` repeated n or more times.
+- `pattern{n,m}` -> Matches `pattern` repeated between n and m times.
+- `pattern1|pattern2` -> Matches `pattern1` or `pattern2`.
+- `[a-z]` -> Matches any lowercase letter.
+- `[^a-z]` -> Matches any character except lowercase letters.
+- `(pattern)` -> Matches `pattern`.
+- `pattern\|pattern` -> Matches `pattern` or `pattern`.
+
+
+## Access Files
+
+- Layers
+
+                Smack labels
+                SELinux labels
+                namespaces
+                cgroups
+                permissions ACL
+                seccomp
+- File Permissions
+
+                -rwxrwxrwx
+                -rwxr-xr-x
+                -rw-rw-rw-
+                -rw-r--r--
+                -rwx------
+                -rw-------
+                -r--------
+                -r--r--r--
+- File Ownership
+        
+                        - User
+                        - Group
+                        - Others
+
+- File Permissions
+
+                - Read
+                - Write
+                - Execute
+
+
+- 0: (000) No permission
+- 1: (001) Execute permission
+- 2: (010) Write permission
+- 3: (011) Write and execute permissions
+- 4: (100) Read permission
+- 5: (101) Read and execute permissions
+- 6: (110) Read and write permissions
+- 7: (111) Read, write, and execute permissions
+
+- chmod
+
+                - chmod [OPTION]... MODE[,MODE]... FILE...
+                - chmod [OPTION]... OCTAL-MODE FILE...
+                - chmod [OPTION]... --reference=RFILE FILE...
+
+### Examples
+
+- `chmod 777 file` -> Give full permissions to user, group, and others.
+
+- `chmod 755 file` -> Give read, write, and execute permissions to the user, and read and execute permissions to the group and others.
+
+- `chmod 644 file` -> Give read and write permissions to the user, and read permissions to the group and others.
+
+- `chmod 600 file` -> Give read and write permissions to the user, and no permissions to the group and others.
+
+- `chmod 700 file` -> Give read, write, and execute permissions to the user, and no permissions to the group and others.
+
+- `chmod 666 file` -> Give read and write permissions to the user, group, and others.
+
+- `chmod 644 file` -> Give read and write permissions to the user, and read permissions to the group and others.
+
+
+### chown
+
+- Change file owner and group
+
+                - chown [OPTION]... OWNER[:[GROUP]] FILE...
+                - chown [OPTION]... :GROUP FILE...
+                - chown [OPTION]... --reference=RFILE FILE...
+
+### Examples
+
+- `chown user:group file` -> Change the owner and group of the file.
+
+- `chown :group file` -> Change the group of the file.
+
+- `chown user file` -> Change the owner of the file.
 
