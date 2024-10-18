@@ -512,3 +512,64 @@ grep [OPTIONS] PATTERN [FILE...]
 
 - `chown user file` -> Change the owner of the file.
 
+
+## sed command
+
+### Definition
+
+- `sed` is a stream editor for filtering and transforming text.
+
+#### Syntax
+
+```bash
+
+sed [OPTIONS] COMMAND FILE
+```
+
+#### Options
+
+- `-n` -> Suppress automatic printing of pattern space.
+- `-e` -> Add the script to the commands to be executed.
+- `-f` -> Add the script to the commands to be executed.
+- `-i` -> Edit files in place.
+- `-r` -> Use extended regular expressions.
+- `-s` -> Treat the input as a single line.
+- `-u` -> Buffer the output.
+- `-V` -> Print version information and exit.
+
+#### Commands
+
+- `p` -> Print the current pattern space.
+- `d` -> Delete the pattern space.
+- `s` -> Substitute the replacement for the first occurrence of the pattern.
+- `y` -> Transform characters.
+- `g` -> Replace all occurrences of the pattern.
+- `w` -> Write to a file.
+- `r` -> Read from a file.
+- `q` -> Quit the script.
+- `l` -> List non-printing characters.
+- `=` -> Print the line number.
+- `!` -> Apply the command to lines not matching the pattern.
+- `~` -> Apply the command to every nth line.
+- `a` -> Append text after a line.
+- `i` -> Insert text before a line.
+- `c` -> Change text.
+- `t` -> Test the substitution.
+- `b` -> Branch to a label.
+- `:` -> Label for branching.
+- `#` -> Comment.
+- `{}` -> Group commands.
+- `;` -> Separate commands.
+- `N` -> Append the next line to the pattern space.
+- `P` -> Print the first part of the pattern space.
+- `D` -> Delete the first part of the pattern space.
+- `h` -> Copy the pattern space to the hold space.
+- `H` -> Append the pattern space to the hold space.
+- `g` -> Copy the hold space to the pattern space.
+- `G` -> Append the hold space to the pattern space.
+
+
+
+#### Examples
+
+- `sed 's/pattern/replacement/' file` -> Substitute the replacement for the first occurrence of the pattern in a file.
